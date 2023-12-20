@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model test {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}
+
+model profile{
+  objectID String @id @default(auto()) @map("_id") @db.ObjectId
+  id String @default(uuid()) @unique
+  userId String @unique
+  name String
+  imageUrl String
+  email String
+
+  server server[]
+  member member[]
+  channel Channel[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+}
+
+model server{
+  objectID String @id @default(auto()) @map("_id") @db.ObjectId
+  id String @default(uuid()) @unique
+  // userId String @unique
+  name String
+  imageUrl String
+  // email String
+  inviteCode String
+
+  member member[]
+  channel Channel[]
+
+  profileId String
+  profile profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index ([profileId])
+}
+
+enum MemberRole{
+  ADMIN
+  MODERATOR
+  GUEST
+}
+
+model member{
+  id String @id @default(uuid()) @map("_id") @db.ObjectId
+  role MemberRole @default(GUEST)
+
+  profileId String
+  profile profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  serverId String
+  server server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index ([profileId])
+  @@index ([serverId])
+}
+
+enum ChanelType{
+  TEXT
+  AUDIO
+  VIDEO
+}
+
+model Channel{
+  id String @id @default(uuid()) @map("_id") @db.ObjectId
+  name String
+  type ChanelType @default(TEXT)
+
+  profileId String
+  profile profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  serverId String
+  server server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index ([profileId])
+  @@index ([serverId])
+}
