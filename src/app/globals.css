@@ -2,7 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body,
 :root {
+  height: 100%;
+}
+
+/* :root {
   height: 100%;
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -25,7 +31,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-}
+} */
 
 @layer base {
   :root {
