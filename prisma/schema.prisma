@@ -56,7 +56,7 @@ enum MemberRole{
 }
 
 model member{
-  id String @id @default(uuid()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
   role MemberRole @default(GUEST)
 
   profileId String
@@ -79,7 +79,7 @@ enum ChanelType{
 }
 
 model Channel{
-  id String @id @default(uuid()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
   name String
   type ChanelType @default(TEXT)
 

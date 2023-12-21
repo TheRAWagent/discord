@@ -20,7 +20,11 @@ const FileUpload = (props: FileUploadProps) => {
   {
     return (<div className='relative h-20 w-20 justify-center'>
       <Image src={props.value} fill alt='Uploaded Image' className=' rounded-full'/>
-    </div>)
+      <button onClick={()=>props.onChange("")} className='bg-rose-500 text-right p-1 rounded-full absolute top-0 right-0 shadow-sm' type='button'>
+        <X className=' h-4 w-4'/>
+      </button>
+    </div>
+    )
   }
   return (
     <div>

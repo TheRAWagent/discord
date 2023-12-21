@@ -12,19 +12,19 @@ import {Form,FormControl,FormField,FormLabel,FormItem,FormMessage} from "@/compo
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/file-upload";
+import { useModal } from "@/hooks/useModalStore";
 
 const formSchema = z.object({
     name: z.string().min(1,{message: "Server Name is Required"}).max(20),
     imageUrl: z.string().min(1,{message: "Server Image is Required"})
 })
 
-const InitialModal = () => {
-    const [mounted, setMounted] = useState(false)
+const CreateServerModal = () => {
+    const {isOpen,onClose,type}=useModal()
     const router = useRouter()
-    useEffect(() => {
-        setMounted(true)
-    }
-    , [])
+
+    const isModalOpen=isOpen && type === 'createServer';
+
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues:{
@@ -41,16 +41,20 @@ const InitialModal = () => {
             await axios.post('/api/servers',data)
             form.reset()
             router.refresh()
-            window.location.reload()
+            onClose()
         }catch(error){
             console.log(error);
             
         }
     }
-    if(!mounted) return null
+
+    const handleClose = () => {
+        onClose()
+        form.reset()
+    }
 
   return (
-    <Dialog open>
+    <Dialog open={isModalOpen} onOpenChange={handleClose}>
         <DialogContent className="bg-white text-black p-0 overflow-hidden">
             <DialogHeader className="pt-8 px-6">
             <DialogTitle className="text-2xl text-center font-bold">Customize Your Server</DialogTitle>
@@ -97,4 +101,4 @@ const InitialModal = () => {
   )
 }
 
-export default InitialModal
+export default CreateServerModal 
