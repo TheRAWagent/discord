@@ -25,14 +25,13 @@ export const NavigationItem = ({ name, id, imageUrl }: NavigationItemProps) => {
                 className="group relative flex items-center "
             >
                 <div className={cn("absolute left-0 bg-primary rounded-r-full transition-all w-[4px]",!selected && "group-hover:h-[20px]",selected?"h-[36px]":"h-[8px]")}/>
-                    <div className={cn("relative group flex mx-3 h—[48px] w-full rounded-[24px] group-hover:rounded-[16px] transition—all overflow-hidden",selected && "bg-primary/10 text-primary rounded-[16px]")}>
+                    <div className={cn("relative group flex mx-3 h-[48px] w-full rounded-[24px] group-hover:rounded-[16px] transition—all overflow-hidden",selected && "bg-primary/10 text-primary rounded-[16px]")}>
                     <Image
                         // fill
                         src={imageUrl}
                         alt={name}
                         width={48}
                         height={48}
-                        // className="h-[48px]"
                     />
                 </div>
             </button>

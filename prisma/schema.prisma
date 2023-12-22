@@ -35,7 +35,7 @@ model server{
   name String
   imageUrl String
   // email String
-  inviteCode String
+  inviteCode String @unique
 
   member member[]
   channel Channel[]
@@ -56,7 +56,8 @@ enum MemberRole{
 }
 
 model member{
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  objectID String @id @default(auto()) @map("_id") @db.ObjectId
+  id String @default(uuid()) @unique
   role MemberRole @default(GUEST)
 
   profileId String
@@ -79,7 +80,8 @@ enum ChanelType{
 }
 
 model Channel{
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  objectID String @id @default(auto()) @map("_id") @db.ObjectId
+  id String @default(uuid()) @unique
   name String
   type ChanelType @default(TEXT)
 
