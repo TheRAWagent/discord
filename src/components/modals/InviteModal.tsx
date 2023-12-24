@@ -57,7 +57,7 @@ const InviteModal = () => {
                     Server Invite Link
                 </Label>
                 <div className="flex items-cente mt-2 gap-x-2">
-                    <Input disabled={isLoading} className=" bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0" value={inviteUrl}/>
+                    <Input disabled className=" bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0" value={inviteUrl}/>
                     <Button disabled={isLoading} onClick={onCopy} size="icon">
                         {copied?<Check className="w-4 h-4"/>:<Copy className="h-4 w-4"/>}
                     </Button>

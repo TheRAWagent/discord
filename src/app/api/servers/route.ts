@@ -1,10 +1,11 @@
-import { CurrentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/db";
 import { MemberRole} from "@prisma/client";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import {v4 as uuidv4} from 'uuid';
 
-export async function POST(req: Request){
+import { db } from "@/lib/db";
+import { CurrentProfile } from "@/lib/current-profile";
+
+export async function POST(req: NextRequest){
     try{
         const {name,imageUrl} = await req.json();
         const profile = await CurrentProfile();

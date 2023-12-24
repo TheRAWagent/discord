@@ -4,6 +4,7 @@ import { useState } from "react";
 import { MemberRole } from "@prisma/client";
 import qs from "query-string";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 import { Check, Gavel, Loader2, MoreVertical, Shield, ShieldAlert, ShieldCheck, ShieldQuestion } from "lucide-react";
 
@@ -12,7 +13,6 @@ import { useModal } from "@/hooks/useModalStore";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { UserAvatar } from "@/components/UserAvatar";
 import { DropdownMenu,DropdownMenuContent,DropdownMenuItem,DropdownMenuPortal,DropdownMenuSeparator,DropdownMenuSub,DropdownMenuSubContent,DropdownMenuTrigger,DropdownMenuSubTrigger } from "../ui/dropdown-menu";
-import { useRouter } from "next/navigation";
 
 const roleIconMap= {
     "GUEST": null,
