@@ -123,9 +123,9 @@ const ServerSidebar = async ({serverId}: ServerSidebarProps) => {
                 </div>
             </div>
         )}
-        <Separator className=" bg-zinc-200 dark:bg-zinc-700 rounded-md my-2"/>
         {audioChannels.length>0 && (
             <div className="mb-2">
+                <Separator className=" bg-zinc-200 dark:bg-zinc-700 rounded-md my-2"/>
                 <ServerSection SectionType="Channel" ChannelType={ChanelType.AUDIO} role={role} label="Audio Channels"/>
                 <div className=" space-y-[2px]">
                 {audioChannels.map(channel => (
@@ -134,9 +134,9 @@ const ServerSidebar = async ({serverId}: ServerSidebarProps) => {
                 </div>
             </div>
         )}
-        <Separator className=" bg-zinc-200 dark:bg-zinc-700 rounded-md my-2"/>
         {videoChannels.length>0 && (
             <div className="mb-2">
+                <Separator className=" bg-zinc-200 dark:bg-zinc-700 rounded-md my-2"/>
                 <ServerSection SectionType="Channel" ChannelType={ChanelType.VIDEO} role={role} label="Video Channels"/>
                 <div className=" space-y-[2px]">
                 {videoChannels.map(channel => (
@@ -145,9 +145,9 @@ const ServerSidebar = async ({serverId}: ServerSidebarProps) => {
                 </div>
             </div>
         )}
-        <Separator className=" bg-zinc-200 dark:bg-zinc-700 rounded-md my-2"/>
         {members.length>0 && (
             <div className="mb-2">
+                <Separator className=" bg-zinc-200 dark:bg-zinc-700 rounded-md my-2"/>
                 <ServerSection SectionType="Member" server={server} role={role} label="Members"/>
                 <div className=" space-y-[2px]">
                 {members.map(member => (

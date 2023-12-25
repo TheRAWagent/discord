@@ -23,7 +23,7 @@ export async function PATCH(req: NextRequest,{params}: {params: {serverId: strin
     }
     catch(e){
         console.log("[SERVER_ID_PATCH]",e);
-        return new Response("Internal Error", {status: 500})
+        return new NextResponse("Internal Error", {status: 500})
     }
 
 } ;
@@ -31,8 +31,8 @@ export async function PATCH(req: NextRequest,{params}: {params: {serverId: strin
 export async function DELETE(req: Request,{params}: {params: {serverId: string}}){
     try{
         const profile = await CurrentProfile();
-        if(!profile) return new Response("Unauthorized",{status: 401});
-        if(!params.serverId) return new Response("Server Id Missing",{status: 400});    
+        if(!profile) return new NextResponse("Unauthorized",{status: 401});
+        if(!params.serverId) return new NextResponse("Server Id Missing",{status: 400});    
         const server = await db.server.delete({
             where: {
                 id: params.serverId,
@@ -43,6 +43,6 @@ export async function DELETE(req: Request,{params}: {params: {serverId: string}}
     }
     catch(e){
         console.log("[SERVER_ID_DELETE]",e);
-        return new Response("Internal Error", {status: 500})
+        return new NextResponse("Internal Error", {status: 500})
     }
 }

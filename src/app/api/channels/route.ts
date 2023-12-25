@@ -48,7 +48,6 @@ export async function POST(req: NextRequest){
         return NextResponse.json(server);
     }
     catch(err){
-        // console.error(err);
         console.log("CHANNELS POST ERROR",err);
         return new NextResponse("Internal Server Error", {status: 500});
     }
