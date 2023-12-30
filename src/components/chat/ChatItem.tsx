@@ -103,11 +103,11 @@ const ChatItem = ({ id, content, member, timestamp, fileUrl, deleted, currentMem
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
 
-    }, [])
+    }, [form,content])
 
     useEffect(() => {
         form.reset({ content: content })
-    }, [content])
+    }, [content,form])
     // console.log(canDelete)
     return (
         <div className="relative group flex items-center hover:bg-black/5 p-4 transition w-full">

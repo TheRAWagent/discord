@@ -47,7 +47,7 @@ const CreateChannelModal = () => {
                 form.setValue('type',ChannelType.TEXT)
             }
         }
-    ,[channelType])
+    ,[channelType,form])
 
     const isLoading = form.formState.isSubmitting;
 

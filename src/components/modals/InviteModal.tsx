@@ -22,8 +22,8 @@ const InviteModal = () => {
     const [copied,setCopied]=useState(false)
     const [isLoading,setIsLoading]=useState(false)
 
-    const onCopy=()=>{
-        navigator.clipboard.writeText(inviteUrl)
+    const onCopy= async ()=> {
+        await navigator.clipboard.writeText(inviteUrl)
         setCopied(true)
 
         setTimeout(()=>{
