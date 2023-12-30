@@ -14,14 +14,14 @@ const ServerIdLayout = async ({children,params}: {children: React.ReactNode,para
     const server=await db.server.findFirst({
         where:{
             id: params.serverId,
-            member:{
+            members:{
                 some:{
                     profileId: profile.id
                 }
             }
         },
         include:{
-            member:{
+            members:{
                 select:{
                     profileId:true
                 }

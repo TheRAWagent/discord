@@ -15,7 +15,7 @@ interface NavigationItemProps {
 export const NavigationItem = ({ name, id, imageUrl }: NavigationItemProps) => {
     const router = useRouter();
     const params = useParams();
-    const selected = params.serverId === id;
+    const selected = params?.serverId === id;
     return (
         <ActionTooltip side="right" align="center" label={name}>
             <button

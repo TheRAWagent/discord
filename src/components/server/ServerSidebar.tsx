@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { ChanelType, MemberRole } from "@prisma/client";
+import { ChannelType, MemberRole } from "@prisma/client";
 
 import { Hash, Mic, ShieldAlert, ShieldCheck, Video } from "lucide-react";
 
@@ -14,9 +14,9 @@ import ServerChannel from "@/components/server/ServerChannel";
 import ServerMember from "@/components/server/ServerMember";
 
 const IconMap={
-    [ChanelType.TEXT]: <Hash className=" mr-2 h-4 w-4"/>,
-    [ChanelType.AUDIO]: <Mic className="mr-2 h-4 w-4"/>,
-    [ChanelType.VIDEO]: <Video className="mr-2 h-4 w-4"/>
+    [ChannelType.TEXT]: <Hash className=" mr-2 h-4 w-4"/>,
+    [ChannelType.AUDIO]: <Mic className="mr-2 h-4 w-4"/>,
+    [ChannelType.VIDEO]: <Video className="mr-2 h-4 w-4"/>
 }
 
 const RoleIconMap={
@@ -40,12 +40,12 @@ const ServerSidebar = async ({serverId}: ServerSidebarProps) => {
             id: serverId,
         },
         include:{
-            channel:{
+            channels:{
                 orderBy: {
                     createdAt: 'asc'
                 }
             },
-            member: {
+            members: {
                 include:{
                     profile: true
                 },
@@ -61,13 +61,13 @@ const ServerSidebar = async ({serverId}: ServerSidebarProps) => {
         return redirect('/')
     }
 
-    const textChannels = server ?.channel.filter(channel => channel.type === ChanelType.TEXT);
-    const audioChannels = server ?.channel.filter(channel => channel.type === ChanelType.AUDIO);
-    const videoChannels = server ?.channel.filter(channel => channel.type === ChanelType.VIDEO);
-    const members= server ?.member.filter(member => member.profileId !== profile.id);
+    const textChannels = server ?.channels.filter(channel => channel.type === ChannelType.TEXT);
+    const audioChannels = server ?.channels.filter(channel => channel.type === ChannelType.AUDIO);
+    const videoChannels = server ?.channels.filter(channel => channel.type === ChannelType.VIDEO);
+    const members= server ?.members.filter(member => member.profileId !== profile.id);
     // console.log(members);
     
-    const role= server ?.member.find(member => member.profileId === profile.id)?.role;
+    const role= server ?.members.find(member => member.profileId === profile.id)?.role;
   return (
     <div className="flex flex-col h-full text-primary w-full dark:bg-[#2b2d31] bg-[#f2f3f5]">
         <ServerHeader server={server} role={role?role:"GUEST"}/>
@@ -115,7 +115,7 @@ const ServerSidebar = async ({serverId}: ServerSidebarProps) => {
         <Separator className=" bg-zinc-200 dark:bg-zinc-700 rounded-md my-2"/>
         {textChannels.length>0 && (
             <div className="mb-2">
-                <ServerSection SectionType="Channel" ChannelType={ChanelType.TEXT} role={role} label="Text Channels"/>
+                <ServerSection SectionType="Channel" channelType={ChannelType.TEXT} role={role} label="Text Channels"/>
                 <div className=" space-y-[2px]">
                 {textChannels.map(channel => (
                     <ServerChannel key={channel.id} Channel={channel} server={server} role={role}/>
@@ -126,7 +126,7 @@ const ServerSidebar = async ({serverId}: ServerSidebarProps) => {
         {audioChannels.length>0 && (
             <div className="mb-2">
                 <Separator className=" bg-zinc-200 dark:bg-zinc-700 rounded-md my-2"/>
-                <ServerSection SectionType="Channel" ChannelType={ChanelType.AUDIO} role={role} label="Audio Channels"/>
+                <ServerSection SectionType="Channel" channelType={ChannelType.AUDIO} role={role} label="Audio Channels"/>
                 <div className=" space-y-[2px]">
                 {audioChannels.map(channel => (
                     <ServerChannel key={channel.id} Channel={channel} server={server} role={role}/>
@@ -137,7 +137,7 @@ const ServerSidebar = async ({serverId}: ServerSidebarProps) => {
         {videoChannels.length>0 && (
             <div className="mb-2">
                 <Separator className=" bg-zinc-200 dark:bg-zinc-700 rounded-md my-2"/>
-                <ServerSection SectionType="Channel" ChannelType={ChanelType.VIDEO} role={role} label="Video Channels"/>
+                <ServerSection SectionType="Channel" channelType={ChannelType.VIDEO} role={role} label="Video Channels"/>
                 <div className=" space-y-[2px]">
                 {videoChannels.map(channel => (
                     <ServerChannel key={channel.id} Channel={channel} server={server} role={role}/>

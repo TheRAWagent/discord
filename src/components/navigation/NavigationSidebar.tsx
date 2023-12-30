@@ -1,13 +1,14 @@
-import { CurrentProfile } from "@/lib/current-profile"
+import { UserButton } from "@clerk/nextjs"
 import { redirect } from "next/navigation"
 
-import {Separator} from "@/components/ui/separator"
+import { CurrentProfile } from "@/lib/current-profile"
 import { db } from "@/lib/db"
+
+import {Separator} from "@/components/ui/separator"
 import NavigationAction from "@/components/navigation/NavigationAction"
 import {ScrollArea} from "@/components/ui/scroll-area"
 import { NavigationItem } from "@/components/navigation/NavigationItem"
 import { ModeToggle } from "@/components/ui/theme-mode-toggle"
-import { UserButton } from "@clerk/nextjs"
 
 const NavigationSidebar = async (): Promise<JSX.Element> => {
   const profile = await CurrentProfile()
@@ -16,7 +17,7 @@ const NavigationSidebar = async (): Promise<JSX.Element> => {
   }
   const servers=await db.server.findMany({
     where: {
-      member: {
+      members: {
         some: {
           profileId: profile.id
         }
