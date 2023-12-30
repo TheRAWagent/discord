@@ -6,7 +6,7 @@ import * as z from 'zod'
 import qs from 'query-string'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { ChanelType } from "@prisma/client";
+import { ChannelType } from "@prisma/client";
 import { useEffect } from "react";
 
 import { Dialog,DialogContent,DialogFooter,DialogHeader,DialogTitle } from "@/components/ui/dialog";
@@ -18,7 +18,7 @@ import { Select,SelectItem,SelectTrigger,SelectContent,SelectValue } from "@/com
 
 const formSchema = z.object({
     name: z.string().min(1,{message: "Channel Name is Required"}).max(20).refine((name)=>name!== 'general',{message: "Channel Name cannot be general"}),
-    type: z.nativeEnum(ChanelType)
+    type: z.nativeEnum(ChannelType)
 })
 
 const EditChannelModal = () => {
@@ -32,7 +32,7 @@ const EditChannelModal = () => {
         resolver: zodResolver(formSchema),
         defaultValues:{
             name: '',
-            type: channel?.type || ChanelType.TEXT
+            type: channel?.type || ChannelType.TEXT
         }
     })
 
@@ -104,7 +104,7 @@ const EditChannelModal = () => {
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        {Object.values(ChanelType).map((type)=>(
+                                        {Object.values(ChannelType).map((type)=>(
                                             <SelectItem key={type} value={type}>
                                                 {type.toLowerCase()}
                                             </SelectItem>

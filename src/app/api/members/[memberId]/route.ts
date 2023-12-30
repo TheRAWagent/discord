@@ -28,7 +28,7 @@ export async function PATCH(req: NextRequest,{params}: {params: {memberId: strin
                 profileId: profile.id
             },
             data: {
-                member: {
+                members: {
                     update: {
                         where:{
                             id: params.memberId,
@@ -43,7 +43,7 @@ export async function PATCH(req: NextRequest,{params}: {params: {memberId: strin
                 }
             },
             include: {
-                member: {
+                members: {
                     include: {
                         profile: true
                     },
@@ -84,7 +84,7 @@ export async function DELETE(req: NextRequest,{params}: {params: {memberId: stri
                 profileId: profile.id
             },
             data: {
-                member: {
+                members: {
                     delete: {
                         id: params.memberId,
                         profileId: {
@@ -94,7 +94,7 @@ export async function DELETE(req: NextRequest,{params}: {params: {memberId: stri
                 }
             },
             include: {
-                member: {
+                members: {
                     include: {
                         profile: true
                     },

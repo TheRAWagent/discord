@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { MemberRole } from "@prisma/client";
+import { ReactElement, useState } from "react";
+import { ChannelType, Member, MemberRole } from "@prisma/client";
 import qs from "query-string";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -75,20 +75,20 @@ const MembersModal = () => {
             <DialogHeader className="pt-8 px-6">
             <DialogTitle className="text-2xl text-center font-bold">Manage Members</DialogTitle>
             <DialogDescription className=" text-center text-zinc-500">
-                {server?.member?.length} Member{server?.member?.length === 1 ? "":"s"}
+                {server?.members?.length} Member{server?.members?.length === 1 ? "":"s"}
             </DialogDescription>
             </DialogHeader>
             {/* <div className="p-6">
                 Hello Members
             </div> */}
             <ScrollArea className="mt-8 max-h-[420px] pr-6">
-                {server?.member?.map((member)=>(
+                {server?.members?.map((member: any)=>(
                     <div key={member.id} className="flex items-center gap-x-2 mb-6">
                         <UserAvatar src={member.profile.imageUrl} />
                         <div className="flex flex-col gap-y-1">
                             <div className="text-xs font-semibold flex items-center gap-x-1">
                                 {member.profile.name}
-                            {roleIconMap[member.role]}
+                            {roleIconMap[member.profile as MemberRole]}
                                 </div>
                             <p className="text-xs text-zinc-500">{member.profile.email}</p>
                         </div>

@@ -18,12 +18,12 @@ export async function POST(req: NextRequest){
                 name: name,
                 imageUrl : imageUrl,
                 inviteCode:uuidv4(),
-                channel: {
+                channels: {
                     create: [
                         {name: "general",profileId:profile.id},
                     ]
                 },
-                member: {
+                members: {
                     create: [
                         {profileId:profile.id,role: MemberRole.ADMIN},
                     ]

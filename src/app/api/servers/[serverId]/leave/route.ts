@@ -23,14 +23,14 @@ export async function PATCH(req: NextRequest,{params}: {params: {serverId: strin
                 profileId: {
                     not: profile.id
                 },
-                member: {
+                members: {
                     some: {
                         profileId: profile.id
                     }
                 }
             },
             data: {
-                member: {
+                members: {
                     deleteMany: {
                         profileId: profile.id
                     }

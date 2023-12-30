@@ -6,7 +6,7 @@ import * as z from 'zod'
 import qs from 'query-string'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams, useRouter } from "next/navigation";
-import { ChanelType } from "@prisma/client";
+import { ChannelType } from "@prisma/client";
 
 import { Dialog,DialogContent,DialogFooter,DialogHeader,DialogTitle } from "@/components/ui/dialog";
 import {Form,FormControl,FormField,FormLabel,FormItem,FormMessage} from "@/components/ui/form"
@@ -18,14 +18,14 @@ import { useEffect } from "react";
 
 const formSchema = z.object({
     name: z.string().min(1,{message: "Channel Name is Required"}).max(20).refine((name)=>name!== 'general',{message: "Channel Name cannot be general"}),
-    type: z.nativeEnum(ChanelType)
+    type: z.nativeEnum(ChannelType)
 })
 
 const CreateChannelModal = () => {
     const {isOpen,onClose,type,data}=useModal()
     const router = useRouter()
     const params = useParams()
-    const {ChannelType} = data;
+    const {channelType} = data;
 
     const isModalOpen=isOpen && type === 'createChannel';
 
@@ -33,21 +33,21 @@ const CreateChannelModal = () => {
         resolver: zodResolver(formSchema),
         defaultValues:{
             name: "",
-            type: ChannelType || ChanelType.TEXT
+            type: channelType || ChannelType.TEXT
         }
     })
 
     useEffect(()=>{
-            if(ChannelType)
+            if(channelType)
             {
-                form.setValue('type',ChannelType)
+                form.setValue('type',channelType)
             }
             else
             {
-                form.setValue('type',ChanelType.TEXT)
+                form.setValue('type',ChannelType.TEXT)
             }
         }
-    ,[ChannelType])
+    ,[channelType])
 
     const isLoading = form.formState.isSubmitting;
 
@@ -108,7 +108,7 @@ const CreateChannelModal = () => {
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        {Object.values(ChanelType).map((type)=>(
+                                        {Object.values(ChannelType).map((type)=>(
                                             <SelectItem key={type} value={type}>
                                                 {type.toLowerCase()}
                                             </SelectItem>

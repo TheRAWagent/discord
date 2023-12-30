@@ -4,8 +4,8 @@ import { NextApiResponse } from 'next';
 import {Server as SocketIOServer} from 'socket.io';
 
 declare global{
-    type ServerWithMembersWithProfiles= server & {
-        members: (member & {profile: profile})[]
+    type ServerWithMembersWithProfiles= Server & {
+        members: (Member & {profile: Profile})[]
     }
     type NextApiResponseSocketIo = NextApiResponse & {
         socket: Socket & {

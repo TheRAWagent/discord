@@ -1,5 +1,5 @@
 "use client";
-import { ChanelType, MemberRole } from "@prisma/client";
+import { ChannelType, MemberRole } from "@prisma/client";
 
 import { Plus, Settings } from "lucide-react";
 
@@ -10,10 +10,10 @@ interface ServerSectionProps {
     label: string;
     role?: MemberRole;
     SectionType: "Channel" | "Member";
-    ChannelType?: ChanelType;
+    channelType?: ChannelType;
     server?: ServerWithMembersWithProfiles;
 }
-const ServerSection = ({label,role,SectionType,server,ChannelType}: ServerSectionProps) => {
+const ServerSection = ({label,role,SectionType,server,channelType}: ServerSectionProps) => {
     const {onOpen} = useModal();
   return (
     <div className="flex items-center justify-between py-2">
@@ -22,7 +22,7 @@ const ServerSection = ({label,role,SectionType,server,ChannelType}: ServerSectio
         </p>
         {role!==MemberRole.GUEST &&  SectionType==="Channel" && (
             <ActionTooltip label="Create Channel" side="top" align="center">
-                <button onClick={()=>onOpen("createChannel",{ChannelType})} className="text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition">
+                <button onClick={()=>onOpen("createChannel",{channelType})} className="text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition">
                     <Plus className="h-4 w-4"/>
                 </button>
             </ActionTooltip>

@@ -3,118 +3,106 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url = env("DATABASE_URL")
 }
 
-model test {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-}
-
-model profile{
-  objectID String @id @default(auto()) @map("_id") @db.ObjectId
-  id String @default(uuid()) @unique
+model Profile {
+  id String @id @default(uuid())
   userId String @unique
   name String
-  imageUrl String
-  email String
+  imageUrl String @db.Text
+  email String @db.Text
 
-  servers server[]
-  members member[]
+  servers Server[]
+  members Member[]
   channels Channel[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
 }
 
-model server{
-  objectID String @id @default(auto()) @map("_id") @db.ObjectId
-  id String @default(uuid()) @unique
-  // userId String @unique
+model Server {
+  id String @id @default(uuid())
   name String
-  imageUrl String
-  // email String
+  imageUrl String @db.Text
   inviteCode String @unique
 
-  members member[]
-  channels Channel[]
-
   profileId String
-  profile profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  members Member[]
+  channels Channel[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index ([profileId])
+  @@index([profileId])
 }
 
-enum MemberRole{
+enum MemberRole {
   ADMIN
   MODERATOR
   GUEST
 }
 
-model member{
-  objectID String @id @default(auto()) @map("_id") @db.ObjectId
-  id String @default(uuid()) @unique
+model Member {
+  id String @id @default(uuid())
   role MemberRole @default(GUEST)
 
   profileId String
-  profile profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   serverId String
-  server server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
 
-  messages message[]
-  conversationsInitiatd conversation[] @relation("MemberOne")
-  conversationsReceived conversation[] @relation("MemberTwo")
+  messages Message[]
+  directMessages DirectMessage[]
 
-  directMessages directMessage[]
+  conversationsInitiated Conversation[] @relation("MemberOne")
+  conversationsReceived Conversation[] @relation("MemberTwo")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index ([profileId])
-  @@index ([serverId])
+  @@index([profileId])
+  @@index([serverId])
 }
 
-enum ChanelType{
+enum ChannelType {
   TEXT
   AUDIO
   VIDEO
 }
 
-model Channel{
-  objectID String @id @default(auto()) @map("_id") @db.ObjectId
-  id String @default(uuid()) @unique
+model Channel {
+  id String @id @default(uuid())
   name String
-  type ChanelType @default(TEXT)
+  type ChannelType @default(TEXT)
 
   profileId String
-  profile profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   serverId String
-  server server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
 
-  messages message[]
+  messages Message[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index ([profileId])
-  @@index ([serverId])
+  @@index([profileId])
+  @@index([serverId])
 }
 
-model message{
-  objectID String @id @default(auto()) @map("_id") @db.ObjectId
-  id String @default(uuid()) @unique
-  content String @db.String
+model Message {
+  id String @id @default(uuid())
+  content String @db.Text
 
-  fileUrl String? @db.String
+  fileUrl String? @db.Text
 
   memberId String
-  member member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
 
   channelId String
   channel Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
@@ -124,48 +112,42 @@ model message{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index ([memberId])
-  @@index ([channelId])
+  @@index([channelId])
+  @@index([memberId])
 }
 
-model conversation{
-  objectID String @id @default(auto()) @map("_id") @db.ObjectId
-  id String @default(uuid()) @unique
+model Conversation {
+  id String @id @default(uuid())
 
   memberOneId String
-  memberOne member @relation("MemberOne",fields: [memberOneId], references: [id], onDelete: Cascade)
+  memberOne Member @relation("MemberOne", fields: [memberOneId], references: [id], onDelete: Cascade)
 
   memberTwoId String
-  memberTwo member @relation("MemberTwo",fields: [memberTwoId], references: [id], onDelete: Cascade)
+  memberTwo Member @relation("MemberTwo", fields: [memberTwoId], references: [id], onDelete: Cascade)
 
-  directMessages directMessage[]
+  directMessages DirectMessage[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  @@index([memberTwoId])
 
-  @@index ([memberOneId])
-  @@index ([memberTwoId])
-  @@unique([memberOneId,memberTwoId])
+  @@unique([memberOneId, memberTwoId])
 }
 
-model directMessage{
-  objectID String @id @default(auto()) @map("_id") @db.ObjectId
-  id String @default(uuid()) @unique
-  content String @db.String
-
-  fileUrl String @db.String
+model DirectMessage {
+  id String @id @default(uuid())
+  content String @db.Text
+  fileUrl String? @db.Text
 
   memberId String
-  member member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
 
   conversationId String
-  conversation conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
   deleted Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index ([memberId])
-  @@index ([conversationId])
+  @@index([memberId])
+  @@index([conversationId])
 }
