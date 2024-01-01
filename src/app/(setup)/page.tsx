@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation"
 
-import InitialModal from "@/components/modals/InitialModal"
 import { db } from "@/lib/db"
 import { InitialProfile } from "@/lib/initial-profile"
 
@@ -20,9 +19,7 @@ const SetupPage = async () => {
         return redirect(`/servers/${server.id}`)
     }
 
-    return (
-    <InitialModal />
-  )
+    return redirect(`/onboarding`)
 }
 
 export default SetupPage

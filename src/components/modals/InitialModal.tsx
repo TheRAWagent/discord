@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import axios from 'axios'
 import * as z from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { Dialog,DialogContent,DialogDescription,DialogFooter,DialogHeader,DialogTitle } from "@/components/ui/dialog";
@@ -12,6 +11,7 @@ import {Form,FormControl,FormField,FormLabel,FormItem,FormMessage} from "@/compo
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/file-upload";
+import { useModal } from "@/hooks/useModalStore";
 
 const formSchema = z.object({
     name: z.string().min(1,{message: "Server Name is Required"}).max(20),
@@ -19,12 +19,9 @@ const formSchema = z.object({
 })
 
 const InitialModal = () => {
-    const [mounted, setMounted] = useState(false)
+    const {isOpen,type,onClose} = useModal()
+    const isModalOpen = isOpen && type === "initialModal";
     const router = useRouter()
-    useEffect(() => {
-        setMounted(true)
-    }
-    , [])
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues:{
@@ -47,10 +44,9 @@ const InitialModal = () => {
             
         }
     }
-    if(!mounted) return null
 
   return (
-    <Dialog open>
+    <Dialog open={isModalOpen} onOpenChange={onClose}>
         <DialogContent className="bg-white text-black p-0 overflow-hidden">
             <DialogHeader className="pt-8 px-6">
             <DialogTitle className="text-2xl text-center font-bold">Customize Your Server</DialogTitle>
@@ -90,7 +86,7 @@ const InitialModal = () => {
                     <DialogFooter className=" bg-gray-100 px-6 py-4">
                         <Button variant='primary' disabled={isLoading}>Create</Button>
                     </DialogFooter>
-                </form>
+                </form> 
             </Form>
         </DialogContent>
     </Dialog>
