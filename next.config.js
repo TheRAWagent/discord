@@ -5,7 +5,8 @@ const nextConfig = {
             {hostname: "uploadthing.com"},
             {hostname: "utfs.io"},
         ]
-    }
+    },
+    trailingSlash: true,
 }
 
 module.exports = nextConfig
